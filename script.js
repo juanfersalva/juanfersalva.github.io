@@ -1,14 +1,9 @@
-let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
-scanner.addListener('scan', function (content) {
-    alert("Scanned content: " + content); 
+const scannerContainer = document.getElementById('scanner-container');
+
+QrScanner.WORKER_PATH = './node_modules/@nimiq/qr-scanner/dist/worker.min.js'; // Adjust path if necessary
+
+const scanner = new QrScanner(scannerContainer, result => {
+    alert('Decoded QR code:', result);
 });
 
-Instascan.Camera.getCameras().then(function (cameras) {
-    if (cameras.length > 0) {
-        scanner.start(cameras[0]); 
-    } else {
-        console.error('No cameras found.');
-    }
-}).catch(function (error) {
-    console.error(error);
-});
+scanner.start(); 
